@@ -1,20 +1,26 @@
 import './styles/index.scss';
 
+const previewDiv: HTMLDivElement = document.querySelector(
+  '.main-preview-result'
+)!;
+
+///
+let accumulatedMd = '';
+
+function renderMarkdown(chunk: string) {
+  accumulatedMd += chunk;
+
+  previewDiv.innerHTML = accumulatedMd;
+}
+
 const rawMarkdown: HTMLTextAreaElement = document.querySelector(
   '.main-editor-textarea'
 )!;
 
-const previewResult: HTMLDivElement = document.querySelector(
-  '.main-preview-result'
-)!;
-
-function renderMarkdown(chunk: string) {
-  console.log(chunk);
-}
-
 rawMarkdown.addEventListener('input', () => {
   renderMarkdown(rawMarkdown.value.slice(-1));
 });
+///
 
 /* Do not modify the code below */
 
@@ -35,8 +41,6 @@ const barfoo = 24
 `;
 
 async function start() {
-  rawMarkdown.innerHTML = '';
-
   for (let i = 0; i < markdownString.length; ) {
     const chunkSize = Math.floor(Math.random() * 5) + 1;
     const chunk = markdownString.slice(i, i + chunkSize);
