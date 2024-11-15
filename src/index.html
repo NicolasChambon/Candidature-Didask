@@ -1,19 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Streaming Markdown Parser</title>
-</head>
-<body>
-  
-  <main>
-    <h1>Streaming Markdown Parser</h1>
-    <p>Write some markdown in the textarea below and see it rendered in real-time.</p>
-    <textarea id="markdown" cols="30" rows="10"></textarea>
-    <div id="preview"></div>
-  </main>
-  
-  <script type="module" src="./index.ts"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Streaming Markdown Parser</title>
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header-title">Streaming Markdown Parser</h1>
+      <p class="header-subtitle">
+        Write some markdown in left textarea and see it rendered in real-time.
+      </p>
+    </header>
+
+    <main class="main">
+      <section class="main-editor">
+        <textarea
+          class="main-editor-textarea"
+          id="editor"
+          placeholder="Write some markdown..."
+        ></textarea>
+      </section>
+      <section class="main-preview">
+        <div id="preview">
+          <p>toto</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Made by
+      <a
+        class="footer-link"
+        href="https://nicolaschambondev.vercel.app/"
+        target="blank"
+      >
+        <img
+          class="footer-link-logo"
+          src="./assets/logo-nc.svg"
+          alt="NC logo"
+        />
+        Nicolas Chambon
+      </a>
+      <span class="footer-text">* Not optimised for mobile devices</span>
+    </footer>
+    <script type="module" src="./index.ts"></script>
+  </body>
 </html>

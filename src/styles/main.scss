@@ -1,0 +1,29 @@
+@use 'reset';
+@use 'variables' as *;
+
+.main {
+  display: flex;
+  height: calc(100vh - ($headerHeight + $footerHeight));
+
+  &-editor {
+    border-right: 1px solid $darkColor;
+    width: 50%;
+
+    &-textarea {
+      border: none;
+      font-family: $codeFont;
+      font-size: 0.9rem;
+      height: 100%;
+      padding: 1rem;
+      resize: none;
+      width: 100%;
+    }
+  }
+
+  &-preview {
+    font-family: $textFont;
+    height: 100%;
+    padding: 1rem;
+    width: 50%;
+  }
+}

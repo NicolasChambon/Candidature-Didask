@@ -1,0 +1,39 @@
+@use 'reset';
+@use 'variables' as *;
+
+.footer {
+  background-color: $darkColor;
+  color: $clearColor;
+  font-family: $textFont;
+  font-size: 0.9rem;
+  height: $footerHeight;
+  padding: 0.5rem;
+  text-align: center;
+
+  &-link {
+    position: relative;
+    &::before {
+      background-color: $clearColor;
+      bottom: -0.15rem;
+      content: '';
+      height: 0.1rem;
+      left: 2.25rem;
+      position: absolute;
+      transition: width 0.2s;
+      width: 0;
+    }
+    &:hover::before {
+      width: 76%;
+    }
+
+    &-logo {
+      height: 2rem;
+      vertical-align: middle;
+    }
+  }
+
+  &-text {
+    font-size: 0.75rem;
+    margin-left: 3rem;
+  }
+}

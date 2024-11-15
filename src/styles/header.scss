@@ -1,0 +1,24 @@
+@use 'reset';
+@use 'variables' as *;
+
+.header {
+  background-color: $clearColor;
+  color: $darkColor;
+  height: $headerHeight;
+  padding: 1rem;
+
+  &-title {
+    font-family: $titleFont;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  &-subtitle {
+    font-family: $textFont;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-align: center;
+  }
+}
