@@ -4,27 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Streaming Markdown Parser</title>
+    <link rel="icon" href="./assets/logo-nc.svg" type="image/svg+xml" />
   </head>
   <body>
     <header class="header">
       <h1 class="header-title">Streaming Markdown Parser</h1>
       <p class="header-subtitle">
-        Write some markdown in left textarea and see it rendered in real-time.
+        Write some markdown in left textarea and see it rendered in real-time or
+        click on <button onclick="start()">Start</button> for a demonstration.
       </p>
     </header>
 
     <main class="main">
       <section class="main-editor">
+        <h2 class="main-editor-title">Markdown</h2>
         <textarea
           class="main-editor-textarea"
-          id="editor"
           placeholder="Write some markdown..."
         ></textarea>
       </section>
       <section class="main-preview">
-        <div id="preview">
-          <p>toto</p>
-        </div>
+        <h2 class="main-preview-title">Preview</h2>
+        <div class="main-preview-result"></div>
       </section>
     </main>
 
@@ -33,7 +34,7 @@
       <a
         class="footer-link"
         href="https://nicolaschambondev.vercel.app/"
-        target="blank"
+        target="_blank"
       >
         <img
           class="footer-link-logo"

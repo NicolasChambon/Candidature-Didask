@@ -8,7 +8,9 @@
   font-size: 0.9rem;
   height: $footerHeight;
   padding: 0.5rem;
+  position: fixed;
   text-align: center;
+  width: 100%;
 
   &-link {
     position: relative;

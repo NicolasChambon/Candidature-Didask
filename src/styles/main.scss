@@ -9,21 +9,60 @@
     border-right: 1px solid $darkColor;
     width: 50%;
 
+    &-title {
+      border-bottom: 1px solid $darkColor;
+      color: $darkColor;
+      font-family: $titleFont;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+    }
+
     &-textarea {
       border: none;
       font-family: $codeFont;
       font-size: 0.9rem;
-      height: 100%;
+      height: calc(100% - 2rem);
       padding: 1rem;
       resize: none;
       width: 100%;
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 
   &-preview {
-    font-family: $textFont;
-    height: 100%;
-    padding: 1rem;
+    border-left: 1px solid $darkColor;
     width: 50%;
+
+    &-title {
+      border-bottom: 1px solid $darkColor;
+      color: $darkColor;
+      font-family: $titleFont;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+    }
+
+    &-result {
+      font-family: $textFont;
+      font-size: 0.9rem;
+      height: calc(100% - 2rem);
+      padding: 1rem;
+      width: 100%;
+
+      & pre {
+        background-color: lightgray;
+        border-radius: 5px;
+        font-family: $codeFont;
+        padding: 0.1rem 0.2rem;
+
+        &.inline {
+          display: inline;
+        }
+      }
+    }
   }
 }
