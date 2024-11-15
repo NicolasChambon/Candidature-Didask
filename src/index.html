@@ -10,8 +10,7 @@
     <header class="header">
       <h1 class="header-title">Streaming Markdown Parser</h1>
       <p class="header-subtitle">
-        Write some markdown in left textarea and see it rendered in real-time or
-        click on
+        Click on
         <button onclick="start()">Start</button>
         for a demonstration.
       </p>
@@ -20,14 +19,13 @@
     <main class="main">
       <section class="main-editor">
         <h2 class="main-editor-title">Markdown</h2>
-        <textarea
-          class="main-editor-textarea"
-          placeholder="Write some markdown..."
-        ></textarea>
+        <div class="main-editor-div" placeholder="Write some markdown..."></div>
       </section>
       <section class="main-preview">
         <h2 class="main-preview-title">Preview</h2>
-        <div class="main-preview-result"></div>
+        <div class="main-preview-result">
+          <div class="main-preview-result-content"></div>
+        </div>
       </section>
     </main>
 

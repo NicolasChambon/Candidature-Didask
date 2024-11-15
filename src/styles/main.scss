@@ -18,7 +18,7 @@
       padding: 0.4rem 1rem;
     }
 
-    &-textarea {
+    &-div {
       border: none;
       font-family: $codeFont;
       font-size: 0.9rem;
@@ -53,28 +53,41 @@
       padding: 1rem;
       width: 100%;
 
+      & h1,
+      & h2,
+      & h3 {
+        font-family: $titleFont;
+      }
+
       & h1 {
         font-size: 1.5rem;
-        font-weight: 600;
-        font-family: $titleFont;
+        font-weight: 700;
         margin-bottom: 0.5rem;
       }
 
+      & h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
+
       & h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 500;
-        font-family: $titleFont;
         margin-bottom: 0.3rem;
       }
 
       & pre {
-        background-color: lightgray;
         border-radius: 5px;
         font-family: $codeFont;
         padding: 0.1rem 0.2rem;
 
         &.inline {
-          display: inline;
+          background-color: rgb(32, 126, 55);
+        }
+
+        &.block {
+          background-color: rgb(59, 50, 173);
         }
       }
     }

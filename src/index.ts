@@ -1,27 +1,44 @@
+import { findTripleBackticksIndexes } from './utils/code-blocks';
+
 import './styles/index.scss';
 
 const previewDiv: HTMLDivElement = document.querySelector(
   '.main-preview-result'
 )!;
 
-///
-let accumulatedMd = '';
+let buffer = '';
 
 function renderMarkdown(chunk: string) {
-  accumulatedMd += chunk;
+  buffer += chunk;
 
-  previewDiv.innerHTML = accumulatedMd;
+  console.log(buffer);
+
+  // Code blocks
+  const indexes = findTripleBackticksIndexes(buffer);
+
+  const openTag = '<pre class="block">';
+  const closeTag = '</pre>';
+  if (indexes.length === 1) {
+    const firstPart = buffer.slice(0, indexes[0]);
+    const secondPart = buffer.slice(indexes[0] + 3);
+
+    const html = firstPart + openTag + secondPart + closeTag;
+
+    previewDiv.innerHTML = html;
+  }
+  if (indexes.length === 2) {
+    const firstPart = buffer.slice(0, indexes[0]);
+    const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
+    const thirdPart = buffer.slice(indexes[1] + 3);
+
+    const html = firstPart + openTag + secondPart + closeTag + thirdPart;
+
+    previewDiv.innerHTML = html;
+  }
 }
 
-const rawMarkdown: HTMLTextAreaElement = document.querySelector(
-  '.main-editor-textarea'
-)!;
-
-rawMarkdown.addEventListener('input', () => {
-  renderMarkdown(rawMarkdown.value.slice(-1));
-});
-///
-
+//////////////////////////////////
+//////////////////////////////////
 /* Do not modify the code below */
 
 const markdownString = `# Hello World
@@ -42,12 +59,14 @@ const barfoo = 24
 
 async function start() {
   for (let i = 0; i < markdownString.length; ) {
+    const rawMarkdown: HTMLDivElement =
+      document.querySelector('.main-editor-div')!;
     const chunkSize = Math.floor(Math.random() * 5) + 1;
     const chunk = markdownString.slice(i, i + chunkSize);
     rawMarkdown.textContent += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 50));
   }
 }
 
