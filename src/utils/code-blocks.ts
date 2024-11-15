@@ -11,3 +11,43 @@ export function findTripleBackticksIndexes(str: string): Array<number> {
 
   return indexes;
 }
+
+export function insertPreBlockTags(
+  buffer: string,
+  indexes: Array<number>,
+  previewDiv: HTMLDivElement
+) {
+  // Si pas d'indexes, retourner le texte tel quel
+  if (!indexes.length) {
+    previewDiv.innerHTML = buffer;
+    return;
+  }
+
+  const openTag = '<pre class="block">';
+  const closeTag = '</pre>';
+
+  let result = '';
+  let lastIndex = 0;
+
+  // Traiter les paires d'indexes
+  for (let i = 0; i < indexes.length; i++) {
+    // Ajouter le texte avant le tag
+    result += buffer.slice(lastIndex, indexes[i]);
+
+    // Alterner entre openTag et closeTag
+    result += i % 2 === 0 ? openTag : closeTag;
+
+    // Mettre à jour l'index
+    lastIndex = indexes[i] + 3;
+  }
+
+  // Ajouter le reste du texte
+  result += buffer.slice(lastIndex);
+
+  // Si nombre impair d'indexes, ajouter le closeTag final
+  if (indexes.length % 2 !== 0) {
+    result += closeTag;
+  }
+
+  previewDiv.innerHTML = result;
+}

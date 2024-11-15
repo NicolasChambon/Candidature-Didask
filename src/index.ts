@@ -1,4 +1,7 @@
-import { findTripleBackticksIndexes } from './utils/code-blocks';
+import {
+  findTripleBackticksIndexes,
+  insertPreBlockTags,
+} from './utils/code-blocks';
 
 import './styles/index.scss';
 
@@ -11,40 +14,76 @@ let buffer = '';
 function renderMarkdown(chunk: string) {
   buffer += chunk;
 
-  console.log(buffer);
+  // console.log(buffer);
 
   // Code blocks
   const indexes = findTripleBackticksIndexes(buffer);
 
-  const openTag = '<pre class="block">';
-  const closeTag = '</pre>';
-  if (indexes.length === 1) {
-    const firstPart = buffer.slice(0, indexes[0]);
-    const secondPart = buffer.slice(indexes[0] + 3);
+  console.log(indexes);
 
-    const html = firstPart + openTag + secondPart + closeTag;
+  insertPreBlockTags(buffer, indexes, previewDiv);
 
-    previewDiv.innerHTML = html;
-  }
-  if (indexes.length === 2) {
-    const firstPart = buffer.slice(0, indexes[0]);
-    const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
-    const thirdPart = buffer.slice(indexes[1] + 3);
+  // if (indexes.length === 1) {
+  //   const firstPart = buffer.slice(0, indexes[0]);
+  //   const secondPart = buffer.slice(indexes[0] + 3);
 
-    const html = firstPart + openTag + secondPart + closeTag + thirdPart;
+  //   const html = firstPart + openTag + secondPart + closeTag;
 
-    previewDiv.innerHTML = html;
-  }
+  //   previewDiv.innerHTML = html;
+  // }
+  // if (indexes.length === 2) {
+  //   const firstPart = buffer.slice(0, indexes[0]);
+  //   const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
+  //   const thirdPart = buffer.slice(indexes[1] + 3);
+
+  //   const html = firstPart + openTag + secondPart + closeTag + thirdPart;
+
+  //   previewDiv.innerHTML = html;
+  // }
+  // if (indexes.length === 3) {
+  //   const firstPart = buffer.slice(0, indexes[0]);
+  //   const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
+  //   const thirdPart = buffer.slice(indexes[1] + 3, indexes[2]);
+  //   const fourthPart = buffer.slice(indexes[2] + 3);
+
+  //   const html =
+  //     firstPart +
+  //     openTag +
+  //     secondPart +
+  //     closeTag +
+  //     thirdPart +
+  //     openTag +
+  //     fourthPart +
+  //     closeTag;
+
+  //   previewDiv.innerHTML = html;
+  // }
 }
 
 //////////////////////////////////
 //////////////////////////////////
 /* Do not modify the code below */
 
+// const markdownString = `# Hello World
+
+// Let's start with simple
+// things.
+// Some code: \`console.log('Hello World')\`
+
+// ### Getting harder
+
+// Some more code:
+// \`\`\`js
+// const foobar = 42
+
+// const barfoo = 24
+// \`\`\`
+// `;
+
 const markdownString = `# Hello World
 
 Let's start with simple
-things.  
+things.
 Some code: \`console.log('Hello World')\`
 
 ### Getting harder
@@ -55,6 +94,17 @@ const foobar = 42
 
 const barfoo = 24
 \`\`\`
+
+salut
+
+\`\`\`js
+const foobar = 42
+\`\`\`
+
+dqkdfhkseqhfkls
+Some more code:
+\`\`\`js
+const foobar = 42
 `;
 
 async function start() {
