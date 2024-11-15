@@ -38,7 +38,7 @@ export function insertPreBlockTags(
     result += i % 2 === 0 ? openTag : closeTag;
 
     // Mettre à jour l'index
-    lastIndex = indexes[i] + 3;
+    lastIndex = indexes[i] + 5; // 5 est la longueur de '```js'
   }
 
   // Ajouter le reste du texte
@@ -50,4 +50,6 @@ export function insertPreBlockTags(
   }
 
   previewDiv.innerHTML = result;
+
+  return result;
 }

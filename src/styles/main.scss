@@ -80,14 +80,15 @@
       & pre {
         border-radius: 5px;
         font-family: $codeFont;
-        padding: 0.1rem 0.2rem;
 
         &.inline {
           background-color: rgb(32, 126, 55);
         }
 
         &.block {
-          background-color: rgb(59, 50, 173);
+          background-color: rgb(100, 93, 194);
+          margin: 0.5rem 0;
+          padding: 0.5rem;
         }
       }
     }

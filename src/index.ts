@@ -14,50 +14,13 @@ let buffer = '';
 function renderMarkdown(chunk: string) {
   buffer += chunk;
 
-  // console.log(buffer);
-
   // Code blocks
   const indexes = findTripleBackticksIndexes(buffer);
+  const codeBlocksHTML = insertPreBlockTags(buffer, indexes, previewDiv);
 
-  console.log(indexes);
+  console.log(codeBlocksHTML);
 
-  insertPreBlockTags(buffer, indexes, previewDiv);
-
-  // if (indexes.length === 1) {
-  //   const firstPart = buffer.slice(0, indexes[0]);
-  //   const secondPart = buffer.slice(indexes[0] + 3);
-
-  //   const html = firstPart + openTag + secondPart + closeTag;
-
-  //   previewDiv.innerHTML = html;
-  // }
-  // if (indexes.length === 2) {
-  //   const firstPart = buffer.slice(0, indexes[0]);
-  //   const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
-  //   const thirdPart = buffer.slice(indexes[1] + 3);
-
-  //   const html = firstPart + openTag + secondPart + closeTag + thirdPart;
-
-  //   previewDiv.innerHTML = html;
-  // }
-  // if (indexes.length === 3) {
-  //   const firstPart = buffer.slice(0, indexes[0]);
-  //   const secondPart = buffer.slice(indexes[0] + 3, indexes[1]);
-  //   const thirdPart = buffer.slice(indexes[1] + 3, indexes[2]);
-  //   const fourthPart = buffer.slice(indexes[2] + 3);
-
-  //   const html =
-  //     firstPart +
-  //     openTag +
-  //     secondPart +
-  //     closeTag +
-  //     thirdPart +
-  //     openTag +
-  //     fourthPart +
-  //     closeTag;
-
-  //   previewDiv.innerHTML = html;
-  // }
+  // Inline code
 }
 
 //////////////////////////////////
