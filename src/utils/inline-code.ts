@@ -1,5 +1,5 @@
-export function findTripleBackticksIndexes(str: string): Array<number> {
-  const regex = /```/g; // g flag to find all occurences and not stop at the first one
+export function findBackticksIndexes(str: string): Array<number> {
+  const regex = /`/g; // g flag to find all occurences and not stop at the first one
   const indexes: Array<number> = [];
 
   const matches = str.matchAll(regex); // matches contains all the matches found by the regex
@@ -12,7 +12,7 @@ export function findTripleBackticksIndexes(str: string): Array<number> {
   return indexes;
 }
 
-export function insertPreBlockTags(
+export function insertInlineCodeTags(
   buffer: string,
   indexes: Array<number>,
   previewDiv: HTMLDivElement
@@ -23,7 +23,7 @@ export function insertPreBlockTags(
     return buffer;
   }
 
-  const openTag = '<pre class="block">';
+  const openTag = '<pre class="inline">';
   const closeTag = '</pre>';
 
   let result = '';
@@ -38,7 +38,7 @@ export function insertPreBlockTags(
     result += i % 2 === 0 ? openTag : closeTag;
 
     // Mettre à jour l'index
-    lastIndex = indexes[i] + 5; // 5 est la longueur de '```js'
+    lastIndex = indexes[i] + 1; // 1 est la longueur de '`'
   }
 
   // Ajouter le reste du texte

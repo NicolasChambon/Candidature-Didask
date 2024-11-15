@@ -78,15 +78,17 @@
       }
 
       & pre {
+        background-color: gray;
         border-radius: 5px;
+        color: lightgray;
         font-family: $codeFont;
 
         &.inline {
-          background-color: rgb(32, 126, 55);
+          display: inline;
+          padding: 0.1rem 0.3rem;
         }
 
         &.block {
-          background-color: rgb(100, 93, 194);
           margin: 0.5rem 0;
           padding: 0.5rem;
         }

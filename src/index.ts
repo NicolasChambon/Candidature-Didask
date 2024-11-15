@@ -3,6 +3,11 @@ import {
   insertPreBlockTags,
 } from './utils/code-blocks';
 
+import {
+  findBackticksIndexes,
+  insertInlineCodeTags,
+} from './utils/inline-code';
+
 import './styles/index.scss';
 
 const previewDiv: HTMLDivElement = document.querySelector(
@@ -15,12 +20,24 @@ function renderMarkdown(chunk: string) {
   buffer += chunk;
 
   // Code blocks
-  const indexes = findTripleBackticksIndexes(buffer);
-  const codeBlocksHTML = insertPreBlockTags(buffer, indexes, previewDiv);
+  const codeBlocksIndexes = findTripleBackticksIndexes(buffer);
+  const codeBlocksHTML = insertPreBlockTags(
+    buffer,
+    codeBlocksIndexes,
+    previewDiv
+  );
 
-  console.log(codeBlocksHTML);
+  // console.log(codeBlocksHTML);
 
   // Inline code
+  const inlineCodeIndexes = findBackticksIndexes(codeBlocksHTML);
+  const inlineCodeHTML = insertInlineCodeTags(
+    codeBlocksHTML,
+    inlineCodeIndexes,
+    previewDiv
+  );
+
+  console.log(inlineCodeHTML);
 }
 
 //////////////////////////////////
@@ -79,7 +96,7 @@ async function start() {
     rawMarkdown.textContent += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
 
