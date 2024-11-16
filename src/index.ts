@@ -1,4 +1,9 @@
 import { findBackticksIndexes, insertPreTags } from './utils/code';
+import {
+  cutArroundPreTags,
+  findPreTagsIndexes,
+  putDivsAroundNonTaggedElements,
+} from './utils/addDivTags';
 
 import './styles/index.scss';
 
@@ -11,7 +16,7 @@ let buffer = '';
 function renderMarkdown(chunk: string) {
   buffer += chunk;
 
-  // Code blocks
+  //// Code blocks
   const codeBlocksIndexes = findBackticksIndexes(buffer, 'block');
   const codeBlocksHTML = insertPreTags(
     buffer,
@@ -20,7 +25,7 @@ function renderMarkdown(chunk: string) {
     'block'
   );
 
-  // Inline code
+  //// Inline code
   const inlineCodeIndexes = findBackticksIndexes(codeBlocksHTML, 'inline');
   const inlineCodeHTML = insertPreTags(
     codeBlocksHTML,
@@ -29,7 +34,28 @@ function renderMarkdown(chunk: string) {
     'inline'
   );
 
-  console.log(inlineCodeHTML);
+  //// Add divs around non-tagged elements
+  const openTagIndexes = findPreTagsIndexes(inlineCodeHTML, 'open');
+  const closeTagIndexes = findPreTagsIndexes(inlineCodeHTML, 'close');
+
+  // cut inlineCodeHTML in pieces of "non tagged text" and pre tags
+  const cutedHTML = cutArroundPreTags(
+    inlineCodeHTML,
+    openTagIndexes,
+    closeTagIndexes
+  );
+
+  // add divs around non-tagged pieces
+  const taggedHTML = putDivsAroundNonTaggedElements(
+    cutedHTML,
+    inlineCodeHTML,
+    previewDiv
+  );
+
+  ////
+
+  console.log(taggedHTML);
+  console.log(document.querySelectorAll('.processing'));
 }
 
 //////////////////////////////////
@@ -88,7 +114,7 @@ async function start() {
     rawMarkdown.innerText += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 63));
+    await new Promise((resolve) => setTimeout(resolve, 10));
   }
 }
 

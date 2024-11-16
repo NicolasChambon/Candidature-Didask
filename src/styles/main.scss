@@ -4,7 +4,7 @@
 .main {
   display: flex;
   height: calc(100vh - ($headerHeight + $footerHeight));
-  line-height: 2ch;
+  line-height: 3ch;
 
   &-editor {
     border-right: 1px solid $darkColor;

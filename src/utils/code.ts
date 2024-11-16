@@ -20,7 +20,7 @@ export function insertPreTags(
   indexes: Array<number>,
   previewDiv: HTMLDivElement,
   type: 'block' | 'inline'
-) {
+): string {
   // if no indexes, return the original text
   if (!indexes.length) {
     previewDiv.innerHTML = buffer;
