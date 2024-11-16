@@ -4,9 +4,10 @@ import {
   findPreTagsIndexes,
   putDivsAroundNonTaggedElements,
 } from './utils/addDivTags';
-// import { findDoubleLineBreaksIndexes } from './utils/lines';
+import { findDoubleLineBreaksIndexes } from './utils/lines';
 
 import './styles/index.scss';
+import { cutArroundDoubleLineBreaks } from './utils/lines';
 
 const previewDiv: HTMLDivElement = document.querySelector(
   '.main-preview-result'
@@ -29,37 +30,31 @@ function renderMarkdown(chunk: string) {
   //// Add divs around non-tagged elements
   const openTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'open');
   const closeTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'close');
-
   // cut inlineCodeHTML in pieces of "non tagged text" and pre tags
   const cutedHTML = cutArroundPreTags(
     codeBlocksHTML,
     openTagIndexes,
     closeTagIndexes
   );
-
   // add divs around non-tagged pieces
   const taggedHTML = putDivsAroundNonTaggedElements(cutedHTML, previewDiv);
 
   //// Inline code
   const inlineCodeIndexes = findBackticksIndexes(taggedHTML, 'inline');
-  const inlineCodeHTML = insertPreTags(
-    taggedHTML,
-    inlineCodeIndexes,
-    previewDiv,
-    'inline'
-  );
+  insertPreTags(taggedHTML, inlineCodeIndexes, previewDiv, 'inline');
 
-  console.log(inlineCodeHTML);
+  //// Lines
+  const nonTreatedDivs: NodeListOf<HTMLDivElement> =
+    document.querySelectorAll('.processing');
 
-  // Lines
-  // const nonTreatedDiv: HTMLDivElement = document.querySelector('.processing')!;
-
-  // console.log(nonTreatedDiv.innerText);
-  // const DoubleLineBreaksIndexes = findDoubleLineBreaksIndexes(
-  //   nonTreatedDiv.innerHTML
-  // );
-
-  // console.log(DoubleLineBreaksIndexes);
+  for (const div of nonTreatedDivs) {
+    const doubleLineBreaksIndexes = findDoubleLineBreaksIndexes(div.innerHTML);
+    const cuttedLines = cutArroundDoubleLineBreaks(
+      div.innerHTML,
+      doubleLineBreaksIndexes
+    );
+    putDivsAroundNonTaggedElements(cuttedLines, div);
+  }
 }
 
 //////////////////////////////////

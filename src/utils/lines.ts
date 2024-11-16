@@ -11,21 +11,37 @@ export function findDoubleLineBreaksIndexes(str: string): Array<number> {
   return indexes;
 }
 
-// Si on a un double saut de ligne, on encapsule le texte entre les deux sauts de ligne dans un div
+export function cutArroundDoubleLineBreaks(
+  str: string,
+  indexes: Array<number>
+): Array<string> {
+  const result: Array<string> = [];
 
-// export function processHeadings(html: string): string {
-//   const lines = html.split('\n');
+  let lastIndex = 0;
 
-//   return lines.map(line => {
-//     if (line.startsWith('# ')) {
-//       return <h1>${line.substring(2)}</h1>;
-//     }
-//     if (line.startsWith('## ')) {
-//       return <h2>${line.substring(3)}</h2>;
-//     }
-//     if (line.startsWith('### ')) {
-//       return <h3>${line.substring(4)}</h3>;
-//     }
-//     return line;
-//   }).join('\n');
-// }
+  for (let i = 0; i < indexes.length; i++) {
+    result.push(str.slice(lastIndex, indexes[i]));
+    lastIndex = indexes[i] + 2;
+  }
+
+  result.push(str.slice(lastIndex));
+
+  return result;
+}
+
+export function putDivsAroundCuttedLines(
+  elements: Array<string>,
+  previewDiv: HTMLDivElement
+): string {
+  const taggedArray: Array<string> = [];
+
+  for (const element of elements) {
+    taggedArray.push(`<div>${element}</div>`);
+  }
+
+  const result = taggedArray.join('');
+
+  previewDiv.innerHTML = result;
+
+  return result;
+}
