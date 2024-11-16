@@ -1,12 +1,4 @@
-import {
-  findTripleBackticksIndexes,
-  insertPreBlockTags,
-} from './utils/code-blocks';
-
-import {
-  findBackticksIndexes,
-  insertInlineCodeTags,
-} from './utils/inline-code';
+import { findBackticksIndexes, insertPreTags } from './utils/code';
 
 import './styles/index.scss';
 
@@ -20,21 +12,21 @@ function renderMarkdown(chunk: string) {
   buffer += chunk;
 
   // Code blocks
-  const codeBlocksIndexes = findTripleBackticksIndexes(buffer);
-  const codeBlocksHTML = insertPreBlockTags(
+  const codeBlocksIndexes = findBackticksIndexes(buffer, 'block');
+  const codeBlocksHTML = insertPreTags(
     buffer,
     codeBlocksIndexes,
-    previewDiv
+    previewDiv,
+    'block'
   );
 
-  // console.log(codeBlocksHTML);
-
   // Inline code
-  const inlineCodeIndexes = findBackticksIndexes(codeBlocksHTML);
-  const inlineCodeHTML = insertInlineCodeTags(
+  const inlineCodeIndexes = findBackticksIndexes(codeBlocksHTML, 'inline');
+  const inlineCodeHTML = insertPreTags(
     codeBlocksHTML,
     inlineCodeIndexes,
-    previewDiv
+    previewDiv,
+    'inline'
   );
 
   console.log(inlineCodeHTML);
@@ -93,10 +85,10 @@ async function start() {
       document.querySelector('.main-editor-div')!;
     const chunkSize = Math.floor(Math.random() * 5) + 1;
     const chunk = markdownString.slice(i, i + chunkSize);
-    rawMarkdown.textContent += chunk;
+    rawMarkdown.innerText += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 63));
   }
 }
 
