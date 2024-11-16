@@ -32,12 +32,15 @@ export function cutArroundPreTags(
 
   result.push(str.slice(lastIndex));
 
+  if (result[result.length - 1] === '') {
+    result.pop();
+  }
+
   return result;
 }
 
 export function putDivsAroundNonTaggedElements(
   elements: Array<string>,
-  buffer: string,
   previewDiv: HTMLDivElement
 ): string {
   const taggedArray: Array<string> = [];
@@ -46,7 +49,7 @@ export function putDivsAroundNonTaggedElements(
     if (element.startsWith('<')) {
       taggedArray.push(element);
     } else {
-      taggedArray.push(`<span class="processing">${element}</span>`);
+      taggedArray.push(`<div class="processing">${element}</div>`);
     }
   }
 

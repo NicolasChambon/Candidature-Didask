@@ -4,6 +4,7 @@ import {
   findPreTagsIndexes,
   putDivsAroundNonTaggedElements,
 } from './utils/addDivTags';
+// import { findDoubleLineBreaksIndexes } from './utils/lines';
 
 import './styles/index.scss';
 
@@ -25,58 +26,45 @@ function renderMarkdown(chunk: string) {
     'block'
   );
 
-  //// Inline code
-  const inlineCodeIndexes = findBackticksIndexes(codeBlocksHTML, 'inline');
-  const inlineCodeHTML = insertPreTags(
-    codeBlocksHTML,
-    inlineCodeIndexes,
-    previewDiv,
-    'inline'
-  );
-
   //// Add divs around non-tagged elements
-  const openTagIndexes = findPreTagsIndexes(inlineCodeHTML, 'open');
-  const closeTagIndexes = findPreTagsIndexes(inlineCodeHTML, 'close');
+  const openTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'open');
+  const closeTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'close');
 
   // cut inlineCodeHTML in pieces of "non tagged text" and pre tags
   const cutedHTML = cutArroundPreTags(
-    inlineCodeHTML,
+    codeBlocksHTML,
     openTagIndexes,
     closeTagIndexes
   );
 
   // add divs around non-tagged pieces
-  const taggedHTML = putDivsAroundNonTaggedElements(
-    cutedHTML,
-    inlineCodeHTML,
-    previewDiv
+  const taggedHTML = putDivsAroundNonTaggedElements(cutedHTML, previewDiv);
+
+  //// Inline code
+  const inlineCodeIndexes = findBackticksIndexes(taggedHTML, 'inline');
+  const inlineCodeHTML = insertPreTags(
+    taggedHTML,
+    inlineCodeIndexes,
+    previewDiv,
+    'inline'
   );
 
-  ////
+  console.log(inlineCodeHTML);
 
-  console.log(taggedHTML);
-  console.log(document.querySelectorAll('.processing'));
+  // Lines
+  // const nonTreatedDiv: HTMLDivElement = document.querySelector('.processing')!;
+
+  // console.log(nonTreatedDiv.innerText);
+  // const DoubleLineBreaksIndexes = findDoubleLineBreaksIndexes(
+  //   nonTreatedDiv.innerHTML
+  // );
+
+  // console.log(DoubleLineBreaksIndexes);
 }
 
 //////////////////////////////////
 //////////////////////////////////
 /* Do not modify the code below */
-
-// const markdownString = `# Hello World
-
-// Let's start with simple
-// things.
-// Some code: \`console.log('Hello World')\`
-
-// ### Getting harder
-
-// Some more code:
-// \`\`\`js
-// const foobar = 42
-
-// const barfoo = 24
-// \`\`\`
-// `;
 
 const markdownString = `# Hello World
 
@@ -92,18 +80,34 @@ const foobar = 42
 
 const barfoo = 24
 \`\`\`
-
-salut
-
-\`\`\`js
-const foobar = 42
-\`\`\`
-
-dqkdfhkseqhfkls
-Some more code:
-\`\`\`js
-const foobar = 42
 `;
+
+// const markdownString = `# Hello World
+
+// Let's start with simple
+// things.
+// Some code: \`console.log('Hello World')\`
+
+// ### Getting harder
+
+// Some more code:
+// \`\`\`js
+// const foobar = 42
+
+// const barfoo = 24
+// \`\`\`
+
+// salut
+
+// \`\`\`js
+// const foobar = 42
+// \`\`\`
+
+// dqkdfhkseqhfkls
+// Some more code:
+// \`\`\`js
+// const foobar = 42
+// `;
 
 async function start() {
   for (let i = 0; i < markdownString.length; ) {
