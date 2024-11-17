@@ -1,18 +1,25 @@
+// Utils
 import { findBackticksIndexes, insertPreTags } from './utils/code';
 import {
   cutArroundPreTags,
   findPreTagsIndexes,
   putDivsAroundNonTaggedElements,
-} from './utils/addDivTags';
-import { findDoubleLineBreaksIndexes } from './utils/lines';
+} from './utils/other';
+import {
+  findDoubleLineBreaksIndexes,
+  putDivsAroundCuttedLines,
+  cutArroundDoubleLineBreaks,
+} from './utils/lines';
 
+// Styles
 import './styles/index.scss';
-import { cutArroundDoubleLineBreaks } from './utils/lines';
 
+// HTML elements
 const previewDiv: HTMLDivElement = document.querySelector(
   '.main-preview-result'
 )!;
 
+// Variables
 let buffer = '';
 
 function renderMarkdown(chunk: string) {
@@ -27,16 +34,16 @@ function renderMarkdown(chunk: string) {
     'block'
   );
 
-  //// Add divs around non-tagged elements
+  //// Cut inlineCodeHTML in pieces of "non tagged text" and pre tags
   const openTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'open');
   const closeTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'close');
-  // cut inlineCodeHTML in pieces of "non tagged text" and pre tags
   const cutedHTML = cutArroundPreTags(
     codeBlocksHTML,
     openTagIndexes,
     closeTagIndexes
   );
-  // add divs around non-tagged pieces
+
+  //// Add divs around non-tagged pieces
   const taggedHTML = putDivsAroundNonTaggedElements(cutedHTML, previewDiv);
 
   //// Inline code
@@ -53,7 +60,23 @@ function renderMarkdown(chunk: string) {
       div.innerHTML,
       doubleLineBreaksIndexes
     );
-    putDivsAroundNonTaggedElements(cuttedLines, div);
+    putDivsAroundCuttedLines(cuttedLines, div);
+  }
+
+  //// Titles
+  // We select all divs inside the divs with class "processing"
+  const divs = document.querySelectorAll('.processing div');
+
+  for (const div of divs) {
+    if (div.textContent?.startsWith('# ')) {
+      div.innerHTML = `<h1>${div.textContent.substring(2)}</h1>`;
+    }
+    if (div.textContent?.startsWith('## ')) {
+      div.innerHTML = `<h2>${div.textContent.substring(3)}</h2>`;
+    }
+    if (div.textContent?.startsWith('### ')) {
+      div.innerHTML = `<h3>${div.textContent.substring(4)}</h3>`;
+    }
   }
 }
 
@@ -77,43 +100,17 @@ const barfoo = 24
 \`\`\`
 `;
 
-// const markdownString = `# Hello World
-
-// Let's start with simple
-// things.
-// Some code: \`console.log('Hello World')\`
-
-// ### Getting harder
-
-// Some more code:
-// \`\`\`js
-// const foobar = 42
-
-// const barfoo = 24
-// \`\`\`
-
-// salut
-
-// \`\`\`js
-// const foobar = 42
-// \`\`\`
-
-// dqkdfhkseqhfkls
-// Some more code:
-// \`\`\`js
-// const foobar = 42
-// `;
-
 async function start() {
+  const rawMarkdown: HTMLDivElement =
+    document.querySelector('.main-editor-div')!;
+
   for (let i = 0; i < markdownString.length; ) {
-    const rawMarkdown: HTMLDivElement =
-      document.querySelector('.main-editor-div')!;
     const chunkSize = Math.floor(Math.random() * 5) + 1;
     const chunk = markdownString.slice(i, i + chunkSize);
-    rawMarkdown.innerText += chunk;
+    rawMarkdown.textContent += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
 

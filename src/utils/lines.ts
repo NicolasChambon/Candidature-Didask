@@ -40,7 +40,6 @@ export function putDivsAroundCuttedLines(
   }
 
   const result = taggedArray.join('');
-
   previewDiv.innerHTML = result;
 
   return result;
