@@ -10,6 +10,7 @@ import {
   putDivsAroundCuttedLines,
   cutArroundDoubleLineBreaks,
 } from './utils/lines';
+import { addTitle } from './utils/titles';
 
 // Styles
 import './styles/index.scss';
@@ -34,7 +35,7 @@ function renderMarkdown(chunk: string) {
     'block'
   );
 
-  //// Cut inlineCodeHTML in pieces of "non tagged text" and pre tags
+  //// Cut inlineCodeHTML in pieces of "non tagged text" or pre tags
   const openTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'open');
   const closeTagIndexes = findPreTagsIndexes(codeBlocksHTML, 'close');
   const cutedHTML = cutArroundPreTags(
@@ -65,19 +66,9 @@ function renderMarkdown(chunk: string) {
 
   //// Titles
   // We select all divs inside the divs with class "processing"
-  const divs = document.querySelectorAll('.processing div');
-
-  for (const div of divs) {
-    if (div.textContent?.startsWith('# ')) {
-      div.innerHTML = `<h1>${div.textContent.substring(2)}</h1>`;
-    }
-    if (div.textContent?.startsWith('## ')) {
-      div.innerHTML = `<h2>${div.textContent.substring(3)}</h2>`;
-    }
-    if (div.textContent?.startsWith('### ')) {
-      div.innerHTML = `<h3>${div.textContent.substring(4)}</h3>`;
-    }
-  }
+  const divs: NodeListOf<HTMLDivElement> =
+    document.querySelectorAll('.processing div');
+  addTitle(divs);
 }
 
 //////////////////////////////////
@@ -110,7 +101,7 @@ async function start() {
     rawMarkdown.textContent += chunk;
     renderMarkdown(chunk);
     i += chunkSize;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 100));
   }
 }
 
